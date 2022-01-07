@@ -29,9 +29,7 @@ module Coursework where
 -}
 
 -- you may change this to your own data type
--- newtype Set a = Set { unSet :: [a] }
-data Set a = Set [a] deriving(Show)
-
+newtype Set a = Set { unSet :: [a] }
 
 {-
    PART 2.
@@ -41,23 +39,12 @@ data Set a = Set [a] deriving(Show)
 
 -- toList {2,1,4,3} => [1,2,3,4]
 -- the output must be sorted.
-toList :: Ord a => Set a -> [a]
-toList (Set []) = []
-toList (Set [x]) = [x]
-toList (Set (x:xs)) = toList(Set(filter(<=x) xs)) ++ [x] ++ toList(Set(filter(>x) xs))
-
+toList :: Set a -> [a]
+toList = undefined
 
 -- fromList [2,1,1,4,5] => {2,1,4,5}
 fromList :: Ord a => [a] -> Set a
-fromList [] = Set []
-fromList [x] = Set [x]
-fromList (x1:x2:xs) = Set(fromList1 (x1:x2:xs))
-   where fromList1 [] = []
-         fromList1 [x] = [x]
-         fromList1 (x1:x2:xs) = if x1 == x2
-            then fromList1 (x1:xs)
-            else x1 : fromList1 (x2:xs)
-   
+fromList = undefined
 
 
 {-
@@ -68,142 +55,77 @@ fromList (x1:x2:xs) = Set(fromList1 (x1:x2:xs))
 
 -- test if two sets have the same elements.
 instance (Ord a) => Eq (Set a) where
-   Set (x:xs) == Set (y:ys) = toList(fromList(toList(Set(x:xs)))) == toList(fromList(toList(Set(y:ys))))
+  s1 == s2 = undefined
 
 
 -- the empty set
 empty :: Set a
-empty = Set []
+empty = undefined
 
 
 -- Set with one element
 singleton :: a -> Set a
-singleton x = Set [x]
+singleton = undefined
 
 
 -- insert an element of type a into a Set
 -- make sure there are no duplicates!
 insert :: (Ord a) => a -> Set a -> Set a
-insert x (Set []) = Set [x]
-insert x (Set (y:ys)) = fromList(insert1 x (toList(Set (y:ys))))
-   where insert1 x [] = [x]
-         insert1 x (y:ys) = if x < y
-            then x : y : ys
-            else y : insert1 x ys   
-
-
-
-
+insert = undefined
 
 
 -- join two Sets together
 -- be careful not to introduce duplicates.
 union :: (Ord a) => Set a -> Set a -> Set a
-union (Set[]) (Set []) = Set []
-union (Set xs) (Set []) = (Set xs)
-union (Set []) (Set ys) = (Set ys)
-union (Set xs) (Set ys) = fromList(union1 (toList(Set xs)) (toList(Set ys)))
-   where union1 [] [] = []
-         union1 xs [] = xs
-         union1 [] xs = xs
-         union1 (x : xs) (y : ys) = if x <= y
-            then x : (union1 xs (y : ys))
-            else y : (union1 (x : xs) ys)
-
-
+union = undefined
 
 
 -- return the common elements between two Sets
 intersection :: (Ord a) => Set a -> Set a -> Set a
-intersection (Set[]) (Set []) = Set []
-intersection (Set xs) (Set []) = Set []
-intersection (Set []) (Set ys) = Set []
-intersection (Set xs) (Set ys) = fromList(intersection1 (toList(Set xs)) (toList(Set ys)))
-   where intesection1 [] [] = []
-         intersection1 xs [] = []
-         intersection1 [] xs = []
-         intersection1 (x:xs) ys = if (x `elem` ys)
-            then x : (intersection1 xs ys)
-            else intersection1 xs ys
-
-
+intersection = undefined
 
 
 -- all the elements in Set A *not* in Set B,
 -- {1,2,3,4} `difference` {3,4} => {1,2}
 -- {} `difference` {0} => {}
 difference :: (Ord a) => Set a -> Set a -> Set a
-difference (Set []) (Set []) = Set []
-difference (Set []) (Set ys) = Set []
-difference (Set xs) (Set []) = (Set xs)
-difference (Set xs) (Set ys) = fromList(difference1 (toList(Set xs)) (toList(Set ys)))
-   where difference1 [] [] = []
-         difference1 xs [] = xs
-         difference1 [] xs = []
-         difference1 (x:xs) ys = if (x `elem` ys)
-            then difference1 xs ys
-            else x : (difference1 xs ys)
-
-
+difference = undefined
 
 
 -- is element *a* in the Set?
 member :: (Ord a) => a -> Set a -> Bool
-member x (Set []) = False
-member x (Set [y]) = if x == y
-   then True
-   else False
-member x (Set (y:ys)) = if x == y
-   then True
-   else member x (Set ys)
-
-
-
+member = undefined
 
 
 -- how many elements are there in the Set?
 cardinality :: Set a -> Int
-cardinality(Set []) = 0
-cardinality(Set xs) = length (xs)
+cardinality = undefined
 
 
 setmap :: (Ord b) => (a -> b) -> Set a -> Set b
-setmap _ (Set []) = Set []
-setmap f (Set xs) = Set((map f xs))
+setmap = undefined
 
 
 setfoldr :: (a -> b -> b) -> Set a -> b -> b
-setfoldr _ (Set []) y = y
-setfoldr f (Set xs) y = foldr f y xs
-
+setfoldr = undefined
 
 
 -- powerset of a set
 -- powerset {1,2} => { {}, {1}, {2}, {1,2} }
-powerSet :: (Ord a) => Set a -> Set (Set a)
-powerSet (Set []) = Set [Set []]
-powerSet (Set xs) = Set(map (fromList) (powerSet1 xs))
-   where powerSet1 [] = [[]]
-         powerSet1 (x:xs) = map (x:) (powerSet1 xs) ++ powerSet1 xs
-
-
+powerSet :: Set a -> Set (Set a)
+powerSet = undefined
 
 
 -- cartesian product of two sets
 cartesian :: Set a -> Set b -> Set (a, b)
-cartesian (Set []) (Set []) = Set []
-cartesian (Set xs) (Set ys) = Set[(x,y) | x <- xs, y <- ys]
-
-
-
+cartesian = undefined
 
 
 -- partition the set into two sets, with
 -- all elements that satisfy the predicate on the left,
 -- and the rest on the right
-partition :: (Ord a) => (a -> Bool) -> Set a -> (Set a, Set a)
-partition _ (Set []) = (Set[], Set[])
-partition f (Set xs) = (Set(filter f xs), (difference (Set xs) (Set(filter f xs))))
+partition :: (a -> Bool) -> Set a -> (Set a, Set a)
+partition = undefined
 
 
 
